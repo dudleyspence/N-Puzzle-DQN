@@ -132,11 +132,11 @@ while restart[0] not in ["Y", "y", "N", "n"]:
     restart = input("Would you like to begin training from scratch? Y/N ")
 
 if restart.upper() == "Y":
-    if os.path.exists("src/training_" + str(N) + "_puzzle_" + str(nodes) + "_nodes"):
-        os.system("rm -rf " + "src/training_" + str(N) + "_puzzle_" + str(nodes) + "_nodes")
+    if os.path.exists("training/training_" + str(N) + "_puzzle_" + str(nodes) + "_nodes"):
+        os.system("rm -rf " + "training/training_" + str(N) + "_puzzle_" + str(nodes) + "_nodes")
 
 else:
-    if not os.path.exists("src/training_" + str(N) + "_puzzle_" + str(nodes) + "_nodes"):
+    if not os.path.exists("training/training_" + str(N) + "_puzzle_" + str(nodes) + "_nodes"):
         print("There is no record of previous training therefore training will restart.")
 
 

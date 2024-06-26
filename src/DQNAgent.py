@@ -26,7 +26,7 @@ class DQNAgent:
         self.learning_rate = learning_rate
         self.difficulty = difficulty
         self.nodes = nodes
-        self.checkpoint_path = "training_" + str(self.N-1) + "_puzzle_" + str(self.nodes) + "_nodes/.weights.h5"
+        self.checkpoint_path = "src/training_" + str(self.N-1) + "_puzzle_" + str(self.nodes) + "_nodes/.weights.h5"
         self.checkpoint_dir = os.path.dirname(self.checkpoint_path)
         self.q_net = self.build_dqn_model()
         if summary:
@@ -115,9 +115,7 @@ class DQNAgent:
         :param batch: a batch of gameplay experiences
         :return: training loss
         """
-        cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=self.checkpoint_path,
-                                                         save_weights_only=True,
-                                                         verbose=0)
+        cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=self.checkpoint_path, save_weights_only=True, verbose=0)
         state_batch, next_state_batch, reward_batch, action_batch, done_batch = batch
         current_q = self.q_net(state_batch)
         target_q = np.copy(current_q)

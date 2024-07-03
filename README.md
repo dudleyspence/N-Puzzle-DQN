@@ -26,7 +26,7 @@ preliminary installation commands from the terminal:
 - cd N-Puzzle-DQN
 - chmod +x setup.sh
 - ./setup.sh
-- 
+  
 Activate the virtual environment with 'source env/bin/activate'
 
 once activated, simply run python3 src/Training_Loop.py

@@ -20,17 +20,17 @@ The project contains 6 files:
 - Puzzle_Solver.py
 
 
-preliminary installation commands:
+preliminary installation commands from the terminal:
 
-- pip install tensorflow
-- pip install keras
-- pip install tqdm
-- pip install matplotlib
-- pip install numpy
-- pip install collections
-- pip install python
+- git clone https://github.com/dudleyspence/N-Puzzle-DQN/
+- cd N-Puzzle-DQN
+- chmod +x setup.sh
+- ./setup.sh
+- 
+Activate the virtual environment with 'source env/bin/activate'
 
-`
+once activated, simply run python3 src/Training_Loop.py
+
 
 Training Guide:
 

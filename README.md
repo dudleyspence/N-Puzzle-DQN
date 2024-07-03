@@ -29,7 +29,6 @@ preliminary installation commands from the terminal:
   
 Activate the virtual environment with 'source env/bin/activate'
 
-once activated, simply run python3 src/Training_Loop.py
 
 
 Training Guide:
@@ -46,7 +45,7 @@ Training Guide:
 
 •	To begin training: open the command prompt and run the command…
 
-	python Training_Loop.py
+	python3 src/Training_Loop.py
 
 •	From there you will be asked to input the N value for the puzzles you would like to train using. For example, for 
 	the 8-puzzle you should input 8.

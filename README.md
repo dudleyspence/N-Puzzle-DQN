@@ -74,7 +74,7 @@ Network Evaluation Guide:
 
 •	To evaluate the network training simply run the command… 
 
-	python Evaluate.py
+	python src/Evaluate.py
 
 •	Input the size N of the puzzle you would like the network to use for evaluation. 
 
@@ -91,7 +91,7 @@ Use the trained network to solve puzzles of your choice:
 
 •	Once you have converted your puzzle into the correct format. On the command line run the command…
 
-	python Puzzle_Solver.py 
+	python src/Puzzle_Solver.py 
 
 •	Then type in the reformatted puzzle and press enter to begin attempting to solve the puzzle.
 

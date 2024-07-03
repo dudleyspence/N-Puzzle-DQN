@@ -9,7 +9,7 @@ authors = [
 description = "A Deep Q-Network that can be trained for solving the N-Puzzle "
 readme = "README.md"
 requires-python = ">=3.0"
-dependancies = ["tensorflow", "keras", "tqdm", "matplotlib", "numpy"
+dependancies = ["tensorflow", "keras", "tqdm", "matplotlib", "numpy==1.26.0"
 , "collections"]
 
 classifiers = [

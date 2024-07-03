@@ -1,1 +1,6 @@
-
+tensorflow 
+keras
+tqdm
+matplotlib
+numpy
+collections

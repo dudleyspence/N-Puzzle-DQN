@@ -16,7 +16,10 @@ import math
 import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
-resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='grpc://' + os.environ['COLAB_TPU_ADDR'])
+# Initialize TPU
+TPU_NAME = 'n-puzzle-training'
+TPU_ZONE = 'asia-east1-c'
+resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu=f'projects/your-project/locations/{TPU_ZONE}/nodes/{TPU_NAME}')
 tf.config.experimental_connect_to_cluster(resolver)
 tf.tpu.experimental.initialize_tpu_system(resolver)
 strategy = tf.distribute.experimental.TPUStrategy(resolver)

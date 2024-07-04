@@ -17,7 +17,8 @@ import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
 # Initialize TPU
-tpu_address = 'projects/dotted-electron-322023/locations/asia-east1-c/nodes/n-puzzle-training'
+# tpu_address = 'projects/dotted-electron-322023/locations/asia-east1-c/nodes/n-puzzle-training'
+tpu_address = 'n-puzzle-training'
 resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu_address)
 tf.config.experimental_connect_to_cluster(resolver)
 tf.tpu.experimental.initialize_tpu_system(resolver)

@@ -17,7 +17,7 @@ import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
 # Constants
-PROJECT_ID = 'your-project-id'  # Replace with your project ID
+PROJECT_ID = 'dotted-electron-322023'  # Replace with your project ID
 TPU_NAME = 'n-puzzle-training'  # Replace with your TPU name
 ZONE = 'asia-east1-c'  # Replace with your TPU zone
 

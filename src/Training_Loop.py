@@ -18,7 +18,7 @@ import os
 
 # Initialize TPU
 tpu_address = 'projects/dotted-electron-322023/locations/asia-east1-c/nodes/n-puzzle-training'
-resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu_address)
+resolver = tf.distribute.cluster_resolver.TPUClusterResolver()
 tf.config.experimental_connect_to_cluster(resolver)
 tf.tpu.experimental.initialize_tpu_system(resolver)
 strategy = tf.distribute.experimental.TPUStrategy(resolver)

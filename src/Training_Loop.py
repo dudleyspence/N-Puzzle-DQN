@@ -18,9 +18,7 @@ import os
 
 # Initialize TPU
 resolver = tf.distribute.cluster_resolver.TPUClusterResolver(
-    tpu='n-puzzle-training'
-    # zone='asia-east1-c',
-    # project='dotted-electron-322023'
+tpu='my-tpu-name'
 )
 tf.config.experimental_connect_to_cluster(resolver)
 tf.tpu.experimental.initialize_tpu_system(resolver)

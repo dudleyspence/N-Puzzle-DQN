@@ -79,6 +79,12 @@ def train_model(max_episodes=10000, n=3, batch_size=100, difficulty=15, final_ep
         buffer = ReplayBuffer(buffer_size)
         env = Environment(n)
         total_finishes = 0
+
+        # Use tf.data.Dataset for efficient data handling
+        dataset = tf.data.Dataset.from_generator(lambda: buffer.sample_gameplay_batch(batch_size),
+                                                 output_types=(tf.float32, tf.float32, tf.float32, tf.int32, tf.bool))
+        dataset = dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
+        
         for episode_cnt in tqdm(range(max_episodes)):
             agent.epsilon = agent.epsilon if agent.epsilon < final_epsilon else agent.epsilon * 0.999
             env.generate_new_board(difficulty)

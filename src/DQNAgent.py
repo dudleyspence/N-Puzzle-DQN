@@ -50,7 +50,8 @@ class DQNAgent:
         """
         input = self.N * (self.N-1)
         q_net = Sequential()
-        q_net.add(Dense(self.nodes, Input(shape=(input,)), activation='relu', kernel_initializer='he_uniform'))
+        q_net.add(Input(shape=(input,)))
+        q_net.add(Dense(self.nodes, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))

@@ -31,6 +31,9 @@ if gpus:
 else:
     print("No GPUs found, using CPU.")
 
+# Enable device placement logging
+tf.debugging.set_log_device_placement(True)
+
 
 
 

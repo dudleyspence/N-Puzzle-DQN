@@ -1,4 +1,4 @@
-s"""
+"""
 Author: Dudley Spence
 Title: Solving the N-puzzle using Deep Reinforcement Learning
 

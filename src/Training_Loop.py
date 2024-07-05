@@ -16,13 +16,18 @@ import math
 import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
-# Initialize TPU
-resolver = tf.distribute.cluster_resolver.TPUClusterResolver(
-tpu='my-tpu-name'
-)
-tf.config.experimental_connect_to_cluster(resolver)
-tf.tpu.experimental.initialize_tpu_system(resolver)
-strategy = tf.distribute.experimental.TPUStrategy(resolver)
+# Check for GPU availability
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+        logical_gpus = tf.config.list_logical_devices('GPU')
+        print(f"{len(gpus)} Physical GPUs, {len(logical_gpus)} Logical GPUs")
+    except RuntimeError as e:
+        print(e)
+else:
+    print("No GPUs found, using CPU.")
 
 
 def collect_gameplay_experiences(env, agent, buffer):

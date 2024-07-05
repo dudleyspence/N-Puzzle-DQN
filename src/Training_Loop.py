@@ -17,9 +17,6 @@ import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
 
-from tensorflow.keras.mixed_precision import experimental as mixed_precision
-policy = mixed_precision.Policy('mixed_float16')
-mixed_precision.set_policy(policy)
 
 
 # Check for GPU availability
@@ -166,6 +163,6 @@ else:
 
 
 # To further optimize the hyper-parameters change the function parameters below
-train_model(max_episodes=100000, n=n, batch_size=100, difficulty=difficulty,
+train_model(max_episodes=100000, n=n, batch_size=1000, difficulty=difficulty,
             final_epsilon=final_epsilon, initial_epsilon=0.9, nodes=nodes, gamma=0.9, buffer_size=100000,
             learning_rate=0.0001, time_steps=50)

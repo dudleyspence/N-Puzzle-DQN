@@ -16,7 +16,12 @@ import math
 import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
+from tensorflow.python.compiler.tensorrt import trt_convert as trt
 
+# Convert a Keras model to a TensorRT compatible format
+converter = trt.TrtGraphConverterV2(input_saved_model_dir='path/to/saved_model')
+converter.convert()
+converter.save('path/to/output_dir')
 
 
 # Check for GPU availability

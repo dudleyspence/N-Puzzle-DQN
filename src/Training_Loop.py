@@ -17,6 +17,10 @@ import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
 
+from tensorflow.keras.mixed_precision import experimental as mixed_precision
+policy = mixed_precision.Policy('mixed_float16')
+mixed_precision.set_policy(policy)
+
 
 # Check for GPU availability
 gpus = tf.config.list_physical_devices('GPU')

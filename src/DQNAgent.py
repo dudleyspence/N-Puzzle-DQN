@@ -117,7 +117,7 @@ class DQNAgent:
         :param batch: a batch of gameplay experiences
         :return: training loss
         """
-        cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=self.checkpoint_path, save_weights_only=True, verbose=0)
+        cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=self.checkpoint_path, save_weights_only=False, verbose=0)
         state_batch, next_state_batch, reward_batch, action_batch, done_batch = batch
         current_q = self.q_net(state_batch)
         target_q = np.copy(current_q)

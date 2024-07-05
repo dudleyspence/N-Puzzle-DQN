@@ -1,0 +1,22 @@
+
+
+[project]
+name = "N-Puzzle DQN"
+version = "0.0.1"
+authors = [
+  { name="Dudley Spence", email="dudleyspence5@gmail.com" },
+]
+description = "A Deep Q-Network that can be trained for solving the N-Puzzle "
+readme = "README.md"
+requires-python = ">=3.0"
+dependancies = ["tensorflow", "keras", "tqdm", "matplotlib", "numpy==1.26.0"
+, "collections"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/dudleyspence/N-Puzzle-DQN"

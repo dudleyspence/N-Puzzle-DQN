@@ -1,0 +1,6 @@
+numpy==1.26.0
+tensorflow 
+keras
+tqdm
+matplotlib
+

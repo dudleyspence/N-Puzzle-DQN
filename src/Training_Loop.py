@@ -73,28 +73,29 @@ def train_model(max_episodes=10000, n=3, batch_size=100, difficulty=15, final_ep
     :param time_steps: The number of time-steps in each epoch
     :return: None
     """
-    agent = DQNAgent(final_epsilon, initial_epsilon, n, difficulty, nodes, gamma, learning_rate, summary=True)
-    buffer = ReplayBuffer(buffer_size)
-    env = Environment(n)
-    total_finishes = 0
-    for episode_cnt in tqdm(range(max_episodes)):
-        agent.epsilon = agent.epsilon if agent.epsilon < final_epsilon else agent.epsilon * 0.999
-        env.generate_new_board(difficulty)
-        for i in range(time_steps):
-            done = collect_gameplay_experiences(env, agent, buffer)
-            if episode_cnt >= 100:
-                gameplay_experience_batch = buffer.sample_gameplay_batch(batch_size)
-                loss = agent.train(gameplay_experience_batch)
-            if done:
-                break
-            if time_steps % 10 == 0:
-                agent.update_target_network()
-        if episode_cnt >= 100 and episode_cnt % 50 == 0:
-            done_count = evaluate_training_result(env, agent, difficulty)
-            total_finishes += done_count
-            print("total finishes is {0}".format(total_finishes))
-            print("so far the loss is {0}".format(loss))
-            print('\n')
+    with tf.device('/GPU:0'):
+        agent = DQNAgent(final_epsilon, initial_epsilon, n, difficulty, nodes, gamma, learning_rate, summary=True)
+        buffer = ReplayBuffer(buffer_size)
+        env = Environment(n)
+        total_finishes = 0
+        for episode_cnt in tqdm(range(max_episodes)):
+            agent.epsilon = agent.epsilon if agent.epsilon < final_epsilon else agent.epsilon * 0.999
+            env.generate_new_board(difficulty)
+            for i in range(time_steps):
+                done = collect_gameplay_experiences(env, agent, buffer)
+                if episode_cnt >= 100:
+                    gameplay_experience_batch = buffer.sample_gameplay_batch(batch_size)
+                    loss = agent.train(gameplay_experience_batch)
+                if done:
+                    break
+                if time_steps % 10 == 0:
+                    agent.update_target_network()
+            if episode_cnt >= 100 and episode_cnt % 50 == 0:
+                done_count = evaluate_training_result(env, agent, difficulty)
+                total_finishes += done_count
+                print("total finishes is {0}".format(total_finishes))
+                print("so far the loss is {0}".format(loss))
+                print('\n')
 
 
 def evaluate_training_result(env, agent, difficulty):

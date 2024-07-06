@@ -70,10 +70,6 @@ def train_model(max_episodes=10000, n=3, batch_size=100, difficulty=15, final_ep
     :param time_steps: The number of time-steps in each epoch
     :return: None
     """
-    if difficulty > 10:
-        batch_size *= 2
-        learning_rate *= 0.5
-
                     
     with tf.device('/GPU:0'):
         agent = DQNAgent(final_epsilon, initial_epsilon, n, difficulty, nodes, gamma, learning_rate, summary=True)
@@ -171,5 +167,5 @@ else:
 
 # To further optimize the hyper-parameters change the function parameters below
 train_model(max_episodes=100000, n=n, batch_size=1000, difficulty=difficulty,
-            final_epsilon=final_epsilon, initial_epsilon=0.9, nodes=nodes, gamma=0.9, buffer_size=100000,
-            learning_rate=0.0001, time_steps=50)
+            final_epsilon=final_epsilon, initial_epsilon=0.9, nodes=nodes, gamma=0.95, buffer_size=100000,
+            learning_rate=0.00001, time_steps=50)

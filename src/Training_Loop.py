@@ -70,6 +70,11 @@ def train_model(max_episodes=10000, n=3, batch_size=100, difficulty=15, final_ep
     :param time_steps: The number of time-steps in each epoch
     :return: None
     """
+    if difficulty > 10:
+        batch_size *= 2
+        learning_rate *= 0.5
+
+                    
     with tf.device('/GPU:0'):
         agent = DQNAgent(final_epsilon, initial_epsilon, n, difficulty, nodes, gamma, learning_rate, summary=True)
         buffer = ReplayBuffer(buffer_size)

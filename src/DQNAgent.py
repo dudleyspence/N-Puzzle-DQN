@@ -26,7 +26,7 @@ class DQNAgent:
         self.learning_rate = learning_rate
         self.difficulty = difficulty
         self.nodes = nodes
-        self.checkpoint_path = "training/training_" + str(self.N-1) + "_puzzle_" + str(self.nodes) + "_nodes/.keras"
+        self.checkpoint_path = "training/training_" + str(self.N-1) + "_puzzle_" + str(self.nodes) + "_nodes/.weights.h5"
         self.checkpoint_dir = os.path.dirname(self.checkpoint_path)
         self.q_net = self.build_dqn_model()
         if summary:

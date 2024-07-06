@@ -16,7 +16,7 @@ import math
 import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
-
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # Check for GPU availability
 gpus = tf.config.list_physical_devices('GPU')

@@ -12,6 +12,7 @@ from DQNAgent import DQNAgent
 from Replay_Buffer import ReplayBuffer
 from tqdm import tqdm
 import tensorflow as tf
+import tensorrt
 import math
 import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"

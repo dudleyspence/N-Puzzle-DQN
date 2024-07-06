@@ -20,7 +20,7 @@ class DQNAgent:
     The agent that explores and learns to solve the puzzle. Learns to approximate the
     Q function allowing it to predict the actions that give the most cumulative reward
     """
-    def __init__(self, final_epsilon=0.2, initial_epsilon=0.9, n=3, difficulty=4, nodes=250, gamma=0.9, learning_rate=0.001, summary=False):
+    def __init__(self, final_epsilon=0.2, initial_epsilon=0.9, n=3, difficulty=4, nodes=250, gamma=0.9, learning_rate=0.0001, summary=False):
         self.n = n
         self.N = n ** 2
         self.learning_rate = learning_rate
@@ -54,7 +54,7 @@ class DQNAgent:
         q_net.add(Input(shape=input_shape))
         q_net.add(Dense(self.nodes * 1, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
-        q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
+        q_net.add(Dense(self.nodes * 4, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 1, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(4, activation='linear', kernel_initializer='he_uniform'))

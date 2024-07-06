@@ -18,11 +18,6 @@ import os
 #os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
 
-# Convert a Keras model to a TensorRT compatible format
-converter = trt.TrtGraphConverterV2(input_saved_model_dir='path/to/saved_model')
-converter.convert()
-converter.save('path/to/output_dir')
-
 
 # Check for GPU availability
 gpus = tf.config.list_physical_devices('GPU')
@@ -36,9 +31,6 @@ if gpus:
         print(e)
 else:
     print("No GPUs found, using CPU.")
-
-# Enable device placement logging
-tf.debugging.set_log_device_placement(True)
 
 
 

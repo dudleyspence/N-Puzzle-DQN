@@ -48,13 +48,15 @@ class DQNAgent:
 
         :return: Q network
         """
-        input = self.N * (self.N-1)
+        input_shape = (self.N * (self.N - 1),)
         q_net = Sequential()
-        q_net.add(Input(shape=(input,)))
-        q_net.add(Dense(self.nodes, activation='relu', kernel_initializer='he_uniform'))
+
+        q_net.add(Input(shape=input_shape))
+        q_net.add(Dense(self.nodes * 1, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
+        q_net.add(Dense(self.nodes * 1, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(4, activation='linear', kernel_initializer='he_uniform'))
         optimizer = Adam(learning_rate=self.learning_rate)
         q_net.compile(optimizer, loss='mse')
@@ -117,7 +119,7 @@ class DQNAgent:
         :param batch: a batch of gameplay experiences
         :return: training loss
         """
-        cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=self.checkpoint_path, save_weights_only=False, verbose=0)
+        cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=self.checkpoint_path, save_weights_only=True, verbose=0)
         state_batch, next_state_batch, reward_batch, action_batch, done_batch = batch
         current_q = self.q_net(state_batch)
         target_q = np.copy(current_q)

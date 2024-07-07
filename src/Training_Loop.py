@@ -97,7 +97,7 @@ def train_model(max_episodes=10000, n=3, batch_size=100, start_difficulty=5, fin
             
             
             for i in range(time_steps):
-                done = collect_gameplay_experiences(env, agent, buffer, state_history)
+                done = collect_gameplay_experiences(env, agent, buffer)
                 if episode_cnt >= 100:
                     gameplay_experience_batch = buffer.sample_gameplay_batch(batch_size)
                     loss = agent.train(gameplay_experience_batch)

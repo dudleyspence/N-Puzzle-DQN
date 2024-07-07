@@ -182,5 +182,5 @@ else:
 
 # To further optimize the hyper-parameters change the function parameters below
 train_model(max_episodes=100000, n=n, batch_size=100, start_difficulty=5,
-            final_epsilon=0.3, initial_epsilon=0.9, nodes=nodes, gamma=0.9, buffer_size=500000,
+            final_epsilon=0.3, initial_epsilon=0.9, nodes=nodes, gamma=0.9, buffer_size=100000,
             learning_rate=0.0001, time_steps=50)

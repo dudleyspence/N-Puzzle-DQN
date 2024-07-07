@@ -53,9 +53,8 @@ class DQNAgent:
 
         q_net.add(Input(shape=input_shape))
         q_net.add(Dense(self.nodes * 1, activation='relu', kernel_initializer='he_uniform'))
-        q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
-        q_net.add(Dense(self.nodes * 4, activation='relu', kernel_initializer='he_uniform'))
-        q_net.add(Dense(self.nodes * 2, activation='relu', kernel_initializer='he_uniform'))
+        q_net.add(Dense(self.nodes * 1, activation='relu', kernel_initializer='he_uniform'))
+        q_net.add(Dense(self.nodes * 1, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(self.nodes * 1, activation='relu', kernel_initializer='he_uniform'))
         q_net.add(Dense(4, activation='linear', kernel_initializer='he_uniform'))
         optimizer = Adam(learning_rate=self.learning_rate)

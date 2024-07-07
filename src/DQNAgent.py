@@ -122,10 +122,15 @@ class DQNAgent:
         current_q = self.q_net(state_batch)
         target_q = np.copy(current_q)
 
+        # Get the next actions using the primary Q-network
         next_actions = np.argmax(self.q_net(next_state_batch), axis=1)
-
+        
+        # Convert next_actions to a TensorFlow tensor for indexing
+        next_actions = tf.convert_to_tensor(next_actions, dtype=tf.int32)
+        
+        # Use the target network to evaluate the Q-values of the next actions
         next_q = self.target_q_net(next_state_batch)
-        max_next_q = next_q[np.arange(next_q.shape[0]), next_actions]
+        max_next_q = tf.gather_nd(next_q, tf.stack([tf.range(next_q.shape[0]), next_actions], axis=1))
 
         for i in range(len(state_batch)):
             target_q_val = reward_batch[i]

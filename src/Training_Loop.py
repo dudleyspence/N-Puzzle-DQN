@@ -165,8 +165,7 @@ if n > 3:
 else:
     nodes = 250
     final_epsilon = 0.4
-difficulty = 5
-# difficulty = int(input("For what difficulty would you like to start training the puzzle from? "))
+start_difficulty = int(input("For what difficulty would you like to start training the puzzle from? "))
 restart = "hi"
 while restart[0] not in ["Y", "y", "N", "n"]:
     restart = input("Would you like to begin training from scratch? Y/N ")

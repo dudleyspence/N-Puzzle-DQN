@@ -35,7 +35,7 @@ else:
 
 
 
-def collect_gameplay_experiences(env, agent, buffer, state_history):
+def collect_gameplay_experiences(env, agent, buffer):
     """
     Collects gameplay experiences by playing one step of a puzzle
     and stores the gameplay experiences in buffer.

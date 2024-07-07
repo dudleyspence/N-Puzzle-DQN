@@ -52,7 +52,7 @@ def collect_gameplay_experiences(env, agent, buffer):
     return done
 
 
-def train_model(max_episodes=10000, n=3, batch_size=100, difficulty=15, final_epsilon=0.3, initial_epsilon=0.9,
+def train_model(max_episodes=10000, n=3, batch_size=100, start_difficulty=5, final_epsilon=0.3, initial_epsilon=0.9,
                 nodes=250,
                 gamma=0.9, buffer_size=100000, learning_rate=0.0001, time_steps=50):
     """
@@ -70,21 +70,25 @@ def train_model(max_episodes=10000, n=3, batch_size=100, difficulty=15, final_ep
     :param time_steps: The number of time-steps in each epoch
     :return: None
     """
-                    
+    current_difficulty = start_difficulty    
     with tf.device('/GPU:0'):
-        agent = DQNAgent(final_epsilon, initial_epsilon, n, difficulty, nodes, gamma, learning_rate, summary=True)
+        agent = DQNAgent(final_epsilon, initial_epsilon, n, start_difficulty, nodes, gamma, learning_rate, summary=True)
         buffer = ReplayBuffer(buffer_size)
         env = Environment(n)
         total_finishes = 0
+
 
         # Use tf.data.Dataset for efficient data handling
         dataset = tf.data.Dataset.from_generator(lambda: buffer.sample_gameplay_batch(batch_size),
                                                  output_types=(tf.float32, tf.float32, tf.float32, tf.int32, tf.bool))
         dataset = dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
+
+
+
         
         for episode_cnt in tqdm(range(max_episodes)):
             agent.epsilon = agent.epsilon if agent.epsilon < final_epsilon else agent.epsilon * 0.9997
-            env.generate_new_board(difficulty)
+            env.generate_new_board(current_difficulty)
             for i in range(time_steps):
                 done = collect_gameplay_experiences(env, agent, buffer)
                 if episode_cnt >= 100:
@@ -95,14 +99,18 @@ def train_model(max_episodes=10000, n=3, batch_size=100, difficulty=15, final_ep
                 if time_steps % 10 == 0:
                     agent.update_target_network()
             if episode_cnt >= 100 and episode_cnt % 50 == 0:
-                done_count = evaluate_training_result(env, agent, difficulty)
+                done_count, just_completed = evaluate_training_result(env, agent, current_difficulty)
                 total_finishes += done_count
                 print("total finishes is {0}".format(total_finishes))
                 print("so far the loss is {0}".format(loss))
                 print('\n')
+                if ((current_difficulty < 22) & (just_completed == 100)):
+                    current_difficulty += 1
+                    agent.difficulty = current_difficulty
 
 
-def evaluate_training_result(env, agent, difficulty):
+
+def evaluate_training_result(env, agent, current_difficulty):
     """
     Evaluates the in-situ performance of the current DQN agent by using it to play
     10 puzzles with 50 actions per game to solve the puzzle.
@@ -116,7 +124,7 @@ def evaluate_training_result(env, agent, difficulty):
     final_distance = 0
     episodes_to_play = 10
     for i in range(episodes_to_play):
-        env.generate_new_board(difficulty)
+        env.generate_new_board(current_difficulty)
         for j in range(50):
             state = agent.convert_board_one_hot(env.current_state)
             state = tf.reshape(state, (1, -1))
@@ -131,12 +139,12 @@ def evaluate_training_result(env, agent, difficulty):
     just_completed = done_count * 10
     print('\n')
     print(f"{agent.N - 1}-Puzzle")
-    print("Difficulty: {0}".format(difficulty))
+    print("Difficulty: {0}".format(current_difficulty))
     print("epsilon is {0}".format(agent.epsilon))
     print(f'Just solved {just_completed}%')
     print("so far the avg final distance is {0}".format(avg_final_distance))
 
-    return done_count
+    return done_count, just_completed
 
 
 # Below is the user input part of the script
@@ -150,8 +158,8 @@ if n > 3:
 else:
     nodes = 250
     final_epsilon = 0.4
-
-difficulty = int(input("For what difficulty would you like to train the puzzle? "))
+difficulty = 5
+# difficulty = int(input("For what difficulty would you like to start training the puzzle from? "))
 restart = "hi"
 while restart[0] not in ["Y", "y", "N", "n"]:
     restart = input("Would you like to begin training from scratch? Y/N ")
@@ -166,6 +174,6 @@ else:
 
 
 # To further optimize the hyper-parameters change the function parameters below
-train_model(max_episodes=100000, n=n, batch_size=1000, difficulty=difficulty,
+train_model(max_episodes=100000, n=n, batch_size=1000, start_difficulty=5,
             final_epsilon=0.3, initial_epsilon=0.9, nodes=nodes, gamma=0.95, buffer_size=100000,
             learning_rate=0.00001, time_steps=50)

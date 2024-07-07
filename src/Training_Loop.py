@@ -34,7 +34,7 @@ else:
 
 
 
-def collect_gameplay_experiences(env, agent, buffer):
+def collect_gameplay_experiences(env, agent, buffer, state_history):
     """
     Collects gameplay experiences by playing one step of a puzzle
     and stores the gameplay experiences in buffer.
@@ -48,6 +48,13 @@ def collect_gameplay_experiences(env, agent, buffer):
     action = agent.epsilon_greedy_policy(state)
     next_state, reward, done = env.apply_action(action)
     next_state = agent.convert_board_one_hot(next_state)
+
+        # Loop detection and penalization
+    state_hash = hash(next_state_hot.tostring())
+    if state_hash in state_history:
+        reward -= 10  # Penalize the loop
+    state_history.append(state_hash)
+    
     buffer.store_gameplay_experience(state_hot, next_state, reward, action, done)
     return done
 
@@ -85,13 +92,16 @@ def train_model(max_episodes=10000, n=3, batch_size=100, start_difficulty=5, fin
         dataset = dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
 
 
-
+        state_history = deque(maxlen=10)
         
         for episode_cnt in tqdm(range(max_episodes)):
             agent.epsilon = agent.epsilon if agent.epsilon < final_epsilon else agent.epsilon * epsilon_decay_rate
             env.generate_new_board(current_difficulty)
+
+            
+            
             for i in range(time_steps):
-                done = collect_gameplay_experiences(env, agent, buffer)
+                done = collect_gameplay_experiences(env, agent, buffer, state_history)
                 if episode_cnt >= 100:
                     gameplay_experience_batch = buffer.sample_gameplay_batch(batch_size)
                     loss = agent.train(gameplay_experience_batch)

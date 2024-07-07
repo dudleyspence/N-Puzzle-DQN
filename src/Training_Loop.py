@@ -48,7 +48,7 @@ def collect_gameplay_experiences(env, agent, buffer, state_history):
     state = tf.reshape(state_hot, (1, -1))
     action = agent.epsilon_greedy_policy(state)
     next_state, reward, done = env.apply_action(action)
-    next_state = agent.convert_board_one_hot(next_state)
+    next_state_hot = agent.convert_board_one_hot(next_state)
 
         # Loop detection and penalization
     state_hash = hash(next_state_hot.tostring())

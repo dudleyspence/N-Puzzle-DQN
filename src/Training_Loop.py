@@ -70,6 +70,7 @@ def train_model(max_episodes=10000, n=3, batch_size=100, start_difficulty=5, fin
     :param time_steps: The number of time-steps in each epoch
     :return: None
     """
+    epsilon_decay_rate = 0.999
     current_difficulty = start_difficulty    
     with tf.device('/GPU:0'):
         agent = DQNAgent(final_epsilon, initial_epsilon, n, start_difficulty, nodes, gamma, learning_rate, summary=True)
@@ -87,7 +88,7 @@ def train_model(max_episodes=10000, n=3, batch_size=100, start_difficulty=5, fin
 
         
         for episode_cnt in tqdm(range(max_episodes)):
-            agent.epsilon = agent.epsilon if agent.epsilon < final_epsilon else agent.epsilon * 0.999
+            agent.epsilon = agent.epsilon if agent.epsilon < final_epsilon else agent.epsilon * epsilon_decay_rate
             env.generate_new_board(current_difficulty)
             for i in range(time_steps):
                 done = collect_gameplay_experiences(env, agent, buffer)

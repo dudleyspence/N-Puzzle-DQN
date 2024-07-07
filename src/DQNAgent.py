@@ -121,8 +121,12 @@ class DQNAgent:
         state_batch, next_state_batch, reward_batch, action_batch, done_batch = batch
         current_q = self.q_net(state_batch)
         target_q = np.copy(current_q)
+
+        next_actions = np.argmax(self.q_net(next_state_batch), axis=1)
+
         next_q = self.target_q_net(next_state_batch)
-        max_next_q = np.amax(next_q, axis=1)
+        max_next_q = next_q[np.arange(next_q.shape[0]), next_actions]
+
         for i in range(len(state_batch)):
             target_q_val = reward_batch[i]
             if not done_batch[i]:

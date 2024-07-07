@@ -48,13 +48,8 @@ def collect_gameplay_experiences(env, agent, buffer, state_history):
     state = tf.reshape(state_hot, (1, -1))
     action = agent.epsilon_greedy_policy(state)
     next_state, reward, done = env.apply_action(action)
-    next_state_hot = agent.convert_board_one_hot(next_state)
+    next_state = agent.convert_board_one_hot(next_state)
 
-        # Loop detection and penalization
-    state_hash = hash(next_state_hot.tostring())
-    if state_hash in state_history:
-        reward -= 10  # Penalize the loop
-    state_history.append(state_hash)
     
     buffer.store_gameplay_experience(state_hot, next_state, reward, action, done)
     return done
@@ -93,7 +88,7 @@ def train_model(max_episodes=10000, n=3, batch_size=100, start_difficulty=5, fin
         dataset = dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
 
 
-        state_history = deque(maxlen=10)
+        # state_history = deque(maxlen=10)
         
         for episode_cnt in tqdm(range(max_episodes)):
             agent.epsilon = agent.epsilon if agent.epsilon < final_epsilon else agent.epsilon * epsilon_decay_rate
@@ -186,6 +181,6 @@ else:
 
 
 # To further optimize the hyper-parameters change the function parameters below
-train_model(max_episodes=100000, n=n, batch_size=500, start_difficulty=5,
+train_model(max_episodes=100000, n=n, batch_size=100, start_difficulty=5,
             final_epsilon=0.3, initial_epsilon=0.9, nodes=nodes, gamma=0.9, buffer_size=500000,
             learning_rate=0.0001, time_steps=50)

@@ -170,16 +170,18 @@ restart = "hi"
 while restart[0] not in ["Y", "y", "N", "n"]:
     restart = input("Would you like to begin training from scratch? Y/N ")
 
+initial_epsilon = 0.9
 if restart.upper() == "Y":
     if os.path.exists("training/training_" + str(N) + "_puzzle_" + str(nodes) + "_nodes"):
         os.system("rm -rf " + "training/training_" + str(N) + "_puzzle_" + str(nodes) + "_nodes")
 
 else:
+    initial_epsilon = 0.5
     if not os.path.exists("training/training_" + str(N) + "_puzzle_" + str(nodes) + "_nodes"):
         print("There is no record of previous training therefore training will restart.")
 
 
 # To further optimize the hyper-parameters change the function parameters below
 train_model(max_episodes=100000, n=n, batch_size=100, start_difficulty=start_difficulty,
-            final_epsilon=0.15, initial_epsilon=0.9, nodes=nodes, gamma=0.9, buffer_size=100000,
-            learning_rate=0.0002, time_steps=50)
+            final_epsilon=0.15, initial_epsilon=0.9, nodes=nodes, gamma=0.95, buffer_size=100000,
+            learning_rate=0.0001, time_steps=50)

@@ -101,7 +101,7 @@ def train_model(max_episodes=10000, n=3, batch_size=100, start_difficulty=5, fin
                     loss = agent.train(gameplay_experience_batch)
                 if done:
                     break
-                if time_steps % 50 == 0:
+                if time_steps % 200 == 0:
                     agent.update_target_network()
             if episode_cnt >= 100 and episode_cnt % 50 == 0:
                 done_count, just_completed = evaluate_training_result(env, agent, current_difficulty)
@@ -181,5 +181,5 @@ else:
 
 # To further optimize the hyper-parameters change the function parameters below
 train_model(max_episodes=100000, n=n, batch_size=100, start_difficulty=start_difficulty,
-            final_epsilon=0.15, initial_epsilon=0.9, nodes=nodes, gamma=0.95, buffer_size=100000,
+            final_epsilon=0.25, initial_epsilon=0.9, nodes=nodes, gamma=0.95, buffer_size=100000,
             learning_rate=0.0002, time_steps=50)

@@ -84,11 +84,9 @@ def train_model(max_episodes=10000, n=3, batch_size=100, start_difficulty=5, fin
 
         # Use tf.data.Dataset for efficient data handling
         dataset = tf.data.Dataset.from_generator(lambda: buffer.sample_gameplay_batch(batch_size),
-                                                 output_types=(tf.float32, tf.float32, tf.float32, tf.int32, tf.bool))
+        output_types=(tf.float32, tf.float32, tf.float32, tf.int32, tf.bool))
         dataset = dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
 
-
-        # state_history = deque(maxlen=10)
         
         for episode_cnt in tqdm(range(max_episodes)):
             agent.epsilon = agent.epsilon if agent.epsilon < final_epsilon else agent.epsilon * epsilon_decay_rate
@@ -184,4 +182,4 @@ else:
 # To further optimize the hyper-parameters change the function parameters below
 train_model(max_episodes=100000, n=n, batch_size=100, start_difficulty=start_difficulty,
             final_epsilon=0.15, initial_epsilon=0.9, nodes=nodes, gamma=0.95, buffer_size=100000,
-            learning_rate=0.0001, time_steps=50)
+            learning_rate=0.0002, time_steps=50)

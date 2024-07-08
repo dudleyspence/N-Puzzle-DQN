@@ -103,7 +103,7 @@ def train_model(max_episodes=10000, n=3, batch_size=100, start_difficulty=5, fin
                     loss = agent.train(gameplay_experience_batch)
                 if done:
                     break
-                if time_steps % 10 == 0:
+                if time_steps % 50 == 0:
                     agent.update_target_network()
             if episode_cnt >= 100 and episode_cnt % 50 == 0:
                 done_count, just_completed = evaluate_training_result(env, agent, current_difficulty)
